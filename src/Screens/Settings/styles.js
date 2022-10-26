@@ -1,21 +1,21 @@
-import {StyleSheet} from 'react-native';
-import Utilities from '../../Utility/UtilityMethods';
+import { StyleSheet } from "react-native";
+import Utilities from "../../Utility/UtilityMethods";
 
-const makeStyles = ({colors, FontSize}) =>
+const makeStyles = ({ colors, FontSize }) =>
   StyleSheet.create({
     root: {
       flex: 1,
-      position: 'relative',
+      position: "relative",
     },
     header: {
-      alignItems: 'center',
-      flexDirection: 'row',
+      alignItems: "center",
+      flexDirection: "row",
       width: Utilities.wp(90),
       paddingVertical: Utilities.hp(3),
-      alignSelf: 'center',
+      alignSelf: "center",
     },
     userInfo: {
-      flexDirection: 'column',
+      flexDirection: "column",
       marginLeft: Utilities.wp(3),
     },
     fullName: {
@@ -29,17 +29,17 @@ const makeStyles = ({colors, FontSize}) =>
     heading: {
       fontSize: FontSize.largeTitle,
       width: Utilities.wp(90),
-      alignSelf: 'center',
-      flexWrap: 'nowrap',
+      alignSelf: "center",
+      flexWrap: "nowrap",
     },
 
     version: {
-      position: 'absolute',
+      position: "absolute",
       backgroundColor: colors.background,
       bottom: 0,
       paddingBottom: Utilities.hasNotch() ? 40 : 10,
       paddingTop: 10,
-      textAlign: 'center',
+      textAlign: "center",
       width: Utilities.wp(100),
       fontSize: FontSize.text_field,
     },

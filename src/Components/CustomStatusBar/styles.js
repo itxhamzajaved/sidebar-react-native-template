@@ -1,9 +1,8 @@
-import {Platform, StatusBar} from 'react-native';
+import { Platform, StatusBar } from "react-native";
 
 const styles = {
   safeArea: {
-    marginBottom:
-      Platform.OS === 'android' ? StatusBar?.currentHeight ?? 20 : 0,
+    marginBottom: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 };
 

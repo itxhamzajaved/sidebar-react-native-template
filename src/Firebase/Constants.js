@@ -1,0 +1,8 @@
+export const COLLECTION_USERS = "UserRecords";
+
+export const PAGINATION_LIMIT = 15;
+
+export const CURRENT_USER_UID = "USER_UID";
+
+export const MESSAGING_SERVER_KEY =
+  "AAAA3RUpeQM:APA91bFttRq0S1f38QWma8f2aoDdHU15U3m-6gNfvMeRTbpyME5CIXUrC9nOsGaO5kmmbrlH8s0-xzvicNNkOCxyl4XanTFMXSbZMwwBOV6OXcujsjLL9pB6PPj6sGJ3YMvoUif0zY6D";

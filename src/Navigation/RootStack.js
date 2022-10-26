@@ -1,8 +1,8 @@
 import {
   CardStyleInterpolators,
   createStackNavigator,
-} from '@react-navigation/stack';
-import React from 'react';
+} from "@react-navigation/stack";
+import React from "react";
 import {
   AboutApp,
   Home,
@@ -11,9 +11,10 @@ import {
   Settings,
   Splash,
   TermsAndConditions,
-} from '../Screens';
-import Routes from './Routes';
-import Header from '../Components/Header/index';
+} from "../Screens";
+import Routes from "./Routes";
+import Header from "../Components/Header/index";
+import Drawer from "./Drawer";
 
 const Stack = createStackNavigator();
 export default function RootStack() {
@@ -22,38 +23,25 @@ export default function RootStack() {
       initialRouteName={Routes.SPLASH}
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}>
+      }}
+    >
       <Stack.Screen
         name={Routes.SPLASH}
         component={Splash}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name={Routes.LOGIN}
         component={Login}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name={Routes.HOME}
-        component={Home}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name={Routes.SETTINGS}
-        component={Settings}
-        options={{
-          title: 'Settings',
-          header: Header,
-        }}
-      />
+
       <Stack.Screen
         name={Routes.ABOUT_APP}
         component={AboutApp}
         options={{
           header: Header,
-          title: 'About App',
+          title: "About App",
         }}
       />
       <Stack.Screen
@@ -61,7 +49,7 @@ export default function RootStack() {
         component={PrivacyPolicy}
         options={{
           header: Header,
-          title: 'Privacy Policy',
+          title: "Privacy Policy",
         }}
       />
       <Stack.Screen
@@ -69,9 +57,26 @@ export default function RootStack() {
         component={TermsAndConditions}
         options={{
           header: Header,
-          title: 'Terms & Conditions',
+          title: "Terms & Conditions",
         }}
       />
+
+      {/* SideBar */}
+      <Stack.Screen
+        name={Routes.HOME}
+        component={Drawer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      {/* <Stack.Screen
+        name={Routes.SETTINGS}
+        component={Settings}
+        options={{
+          title: "Settings",
+          header: Header,
+        }}
+      /> */}
     </Stack.Navigator>
   );
 }

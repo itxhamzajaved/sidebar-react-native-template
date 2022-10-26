@@ -1,32 +1,34 @@
-import React from 'react';
-import {View} from 'react-native';
-import {Text, TextInput, useTheme} from 'react-native-paper';
-import {Button, Space} from '../../Components';
-import CommonStyles from '../../Styles/CommonStyles';
-import Utilities from '../../Utility/UtilityMethods';
-import makeStyles from './styles';
-import {useLoading} from '../../Contexts/LoadingProvider';
-import Routes from '../../Navigation/Routes';
+import React from "react";
+import { View } from "react-native";
+import { Text, TextInput, useTheme } from "react-native-paper";
+import { Button, Space } from "../../Components";
+import CommonStyles from "../../Styles/CommonStyles";
+import Utilities from "../../Utility/UtilityMethods";
+import makeStyles from "./styles";
+import { useLoading } from "../../Contexts/LoadingProvider";
+import Routes from "../../Navigation/Routes";
+import DateAndTime from "../../Utility/DateAndTime";
+import moment from "moment";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const theme = useTheme();
   // let {startLoading, stopLoading} = useLoading();
   const [loading, setLoading] = React.useState(false);
   const styles = makeStyles(theme);
   const [emailState, setEmailState] = React.useState({
-    value: 'testing@gmail.com',
+    value: "testing@gmail.com",
   });
-  const [passwordState, setPasswordState] = React.useState({value: '123456'});
+  const [passwordState, setPasswordState] = React.useState({ value: "123456" });
 
   let fieldsAreValid = () => {
     let returnedValue = true;
-    setEmailState({value: emailState.value});
-    setPasswordState({value: passwordState.value});
+    setEmailState({ value: emailState.value });
+    setPasswordState({ value: passwordState.value });
     if (emailState.value?.length === 0) {
       setEmailState({
         ...emailState,
         error: true,
-        errorMessage: 'Email is required',
+        errorMessage: "Email is required",
       });
       returnedValue = false;
     }
@@ -34,7 +36,7 @@ const Login = ({navigation}) => {
       setEmailState({
         ...emailState,
         error: true,
-        errorMessage: 'Invalid Email',
+        errorMessage: "Invalid Email",
       });
       returnedValue = false;
     }
@@ -42,7 +44,7 @@ const Login = ({navigation}) => {
       setPasswordState({
         ...passwordState,
         error: true,
-        errorMessage: 'Password is required',
+        errorMessage: "Password is required",
       });
       returnedValue = false;
     }
@@ -72,7 +74,7 @@ const Login = ({navigation}) => {
           mode="flat"
           value={emailState.value}
           error={emailState.error}
-          onChangeText={value => setEmailState({value})}
+          onChangeText={(value) => setEmailState({ value })}
           style={[CommonStyles.fullPercentageWidth]}
         />
         {emailState.error && (
@@ -85,7 +87,7 @@ const Login = ({navigation}) => {
           secureTextEntry
           value={passwordState.value}
           error={passwordState.error}
-          onChangeText={value => setPasswordState({value})}
+          onChangeText={(value) => setPasswordState({ value })}
           style={[CommonStyles.fullPercentageWidth]}
         />
         {passwordState.error && (
@@ -105,4 +107,4 @@ const Login = ({navigation}) => {
   );
 };
 
-export {Login};
+export { Login };

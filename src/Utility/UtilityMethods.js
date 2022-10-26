@@ -1,13 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CommonActions} from '@react-navigation/native';
-import {Dimensions, PixelRatio, Platform} from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
-import {navigationRef} from '../App';
-let screenWidth = Dimensions.get('window').width;
-let screenHeight = Dimensions.get('window').height;
+import { CommonActions } from "@react-navigation/native";
+import { Dimensions, PixelRatio, Platform } from "react-native";
+import ImagePicker from "react-native-image-crop-picker";
+import { navigationRef } from "../App";
+let screenWidth = Dimensions.get("window").width;
+let screenHeight = Dimensions.get("window").height;
 
-let iosAppUrl = 'https://ios.swift.com/';
-let androidAppUrl = 'https://android.java.com/';
+let iosAppUrl = "https://ios.swift.com/";
+let androidAppUrl = "https://android.java.com/";
 
 /**
  * Helper Functions
@@ -15,13 +14,92 @@ let androidAppUrl = 'https://android.java.com/';
  * @class UtilityMethods
  */
 class UtilityMethods {
-  hp = height => {
-    const elemHeight = typeof height === 'number' ? height : parseFloat(height);
+  hp = (height) => {
+    const elemHeight = typeof height === "number" ? height : parseFloat(height);
     return PixelRatio.roundToNearestPixel((screenHeight * elemHeight) / 100);
   };
-  wp = width => {
-    const elemWidth = typeof width === 'number' ? width : parseFloat(width);
+  wp = (width) => {
+    const elemWidth = typeof width === "number" ? width : parseFloat(width);
     return PixelRatio.roundToNearestPixel((screenWidth * elemWidth) / 100);
+  };
+
+  /**
+   * Returns true if the given string only contain letters
+   *
+   * @param {*} str
+   * @return {*}
+   * @memberof UtilityMethods
+   */
+  hasOnlyLetters(str) {
+    let result = /^[\p{L} ,.'-]+$/u.test(str);
+    console.log(result);
+    return result;
+  }
+
+  /**
+   * Parse JSON string or throw error
+   */
+  parseJSON = (data) => {
+    data = data || "";
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      throw new Error({
+        type: "JSON.parse",
+        message: error.stack,
+        reason: error.message,
+      });
+    }
+  };
+  /**
+   * Safely parse JSON strings (no errors)
+   */
+  toJSON = (data) => {
+    data = data || "";
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      return {
+        type: "JSON.parse",
+        message: error.stack,
+        reason: error.message,
+      };
+    }
+  };
+
+  /**
+   * Check empty object
+   */
+  checkEmptyObject = (obj) => {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  };
+
+  /**
+   * Check if the variable is undefined
+   */
+  isUndefined = (data) => {
+    if (data === "undefined") {
+      return true;
+    }
+    return false;
+  };
+
+  /**
+   * Helper function to convert bytes to size
+   *
+   * @param {*} bytes
+   * @memberof UtilityMethods
+   */
+  bytesToSize = (bytes) => {
+    if (bytes === 0) return "0 B";
+
+    var k = 1024;
+    var sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    var i = Math.floor(Math.log(bytes) / Math.log(k));
+    return (bytes / Math.pow(k, i)).toPrecision(3) + " " + sizes[i];
   };
 
   /**
@@ -30,7 +108,7 @@ class UtilityMethods {
    * @param {*} email
    * @memberof UtilityMethods
    */
-  isEmailValid = email => {
+  isEmailValid = (email) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     return reg.test(email);
   };
@@ -41,7 +119,7 @@ class UtilityMethods {
    * @param {*} phoneNumber
    * @memberof UtilityMethods
    */
-  isPhoneNumberValid = phoneNumber => {
+  isPhoneNumberValid = (phoneNumber) => {
     var format = /[ `!@#$%^&*()_\-=\[\]{};':"\\|,.<>\/?~]/;
     if (format.test(phoneNumber) || phoneNumber.length > 15) {
       return false;
@@ -57,7 +135,7 @@ class UtilityMethods {
    * @param {*} string
    * @memberof UtilityMethods
    */
-  capitalizeFirstLetter = string => {
+  capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
@@ -67,15 +145,15 @@ class UtilityMethods {
    * @param {*} str
    * @memberof UtilityMethods
    */
-  isValidUrl = str => {
+  isValidUrl = (str) => {
     let pattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
-      'i',
+      "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+      "i"
     ); // fragment locator
     return !!pattern.test(str);
   };
@@ -89,11 +167,11 @@ class UtilityMethods {
    */
   getRandomString(length) {
     let randomChars = ``;
-    ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789');
-    let result = '';
+    ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    let result = "";
     for (let i = 0; i < length; i++) {
       result += randomChars.charAt(
-        Math.floor(Math.random() * randomChars.length),
+        Math.floor(Math.random() * randomChars.length)
       );
     }
     return result;
@@ -105,11 +183,11 @@ class UtilityMethods {
    * @memberof UtilityMethods
    */
   hasNotch = () => {
-    let d = Dimensions.get('window');
-    const {height, width} = d;
+    let d = Dimensions.get("window");
+    const { height, width } = d;
     return (
       // This has to be iOS duh
-      Platform.OS === 'ios' &&
+      Platform.OS === "ios" &&
       // Accounting for the height in either orientation
       (height >= 812 || width >= 812)
     );
@@ -121,9 +199,9 @@ class UtilityMethods {
    * @memberof UtilityMethods
    */
   isIphoneX = () => {
-    const dimension = Dimensions.get('window');
+    const dimension = Dimensions.get("window");
     return (
-      Platform.OS === 'ios' &&
+      Platform.OS === "ios" &&
       !Platform.isPad &&
       !Platform.isTV &&
       (dimension.height === 780 ||
@@ -148,121 +226,34 @@ class UtilityMethods {
    * @memberof UtilityMethods
    */
   selectImage = (selectType, multiple, callback) => {
-    if (selectType === 'camera') {
+    if (selectType === "camera") {
       ImagePicker.openCamera({
         cropping: true,
-        mediaType: 'photo',
-      }).then(image => {
+        mediaType: "photo",
+      }).then((image) => {
         callback(image);
       });
     } else {
       ImagePicker.openPicker({
         multiple: multiple,
-        mediaType: 'photo',
+        mediaType: "photo",
         cropping: true,
-      }).then(images => {
+      }).then((images) => {
         callback(images);
       });
     }
   };
 
-  /**
-   * Helper Function for storing String Data in the async storage
-   *
-   * @param {*} key
-   * @param {*} value
-   * @memberof UtilityMethods
-   */
-  storeStringData = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (e) {}
-  };
-
-  /**
-   * Helper Function for retrieving a String Data from the async storage
-   *
-   * @param {*} key
-   * @memberof UtilityMethods
-   */
-  getStringData = async key => {
-    try {
-      let value = await AsyncStorage.getItem(key);
-      return value;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  /**
-   * Helper Function for storing a Json Data in the async storage
-   *
-   * @param {*} key
-   * @param {*} value
-   * @memberof UtilityMethods
-   */
-  storeJsonData = async (key, value) => {
-    try {
-      const jsonValue = value === null ? null : JSON.stringify(value);
-      await AsyncStorage.setItem(key, jsonValue);
-    } catch (e) {
-      return null;
-    }
-  };
-
-  /**
-   * Helper Function for retrieving a Json Data from the async storage
-   *
-   * @param {*} key
-   * @memberof UtilityMethods
-   */
-  getJsonData = async key => {
-    try {
-      let jsonValue = await AsyncStorage.getItem(key);
-      jsonValue = jsonValue != null ? JSON.parse(jsonValue) : null;
-      return jsonValue;
-    } catch (e) {
-      return null;
-    }
-  };
-
-  /**
-   * Helper Function for removing data from async storage
-   *
-   * @param {*} key
-   * @memberof UtilityMethods
-   */
-  removeAsyncItem = async key => {
-    try {
-      await AsyncStorage.removeItem(key);
-    } catch (e) {}
-  };
-
-  /**
-   * Helper Function for checking json value
-   *
-   * @param {*} str
-   * @memberof UtilityMethods
-   */
-  isJson = str => {
-    try {
-      JSON.parse(str);
-    } catch (e) {
-      return false;
-    }
-    return true;
-  };
-
   hex2rgba = (hex, alpha = 1) => {
-    const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
+    const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
     return `rgba(${r},${g},${b},${alpha})`;
   };
 
   getAppUrl = () => {
-    return Platform.OS === 'ios' ? iosAppUrl : androidAppUrl;
+    return Platform.OS === "ios" ? iosAppUrl : androidAppUrl;
   };
 
-  resetAndNavigate = route => {
+  resetAndNavigate = (route) => {
     navigationRef.dispatch(
       CommonActions.reset({
         routes: [
@@ -270,15 +261,15 @@ class UtilityMethods {
             name: route,
           },
         ],
-      }),
+      })
     );
   };
 
-  resetAndNavigateUsingMultipleRoutes = routes => {
+  resetAndNavigateUsingMultipleRoutes = (routes) => {
     navigationRef.dispatch(
       CommonActions.reset({
         routes,
-      }),
+      })
     );
   };
 
